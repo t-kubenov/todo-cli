@@ -1,15 +1,20 @@
 package todo
 
-type Priority int 
+import "fmt"
+
+type Priority int
 
 const (
-	Low = iota + 1
+	None = iota
+	Low
 	Medium
 	High
 )
 
 func (p Priority) String() string {
 	switch p {
+	case None:
+		return ""
 	case Low:
 		return "Low"
 	case Medium:
@@ -21,4 +26,17 @@ func (p Priority) String() string {
 	}
 }
 
-// todo: add parser, implement in addTask
+func ParsePriority(s string) (Priority, error) {
+	switch s {
+	case "none", "":
+		return None, nil
+	case "low", "Low":
+		return Low, nil
+	case "medium", "Medium":
+		return Medium, nil
+	case "high", "High":
+		return High, nil
+	default:
+		return None, fmt.Errorf("invalid property: %s", s)
+	}
+}
